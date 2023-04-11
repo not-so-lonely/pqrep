@@ -1,0 +1,37 @@
+from PyQt5.QtWidgets import *
+from PyQt5.QtCore import Qt
+from PyQt5.QtGui import*
+
+
+app = QApplication([])
+okno = QWidget()
+horline = QVBoxLayout()
+okno.setLayout(horline)
+app.setApplicationName('QColorDialog')
+tz = QLabel(text = 'Choose a color')
+
+def slide(value):
+    value = int(value/2)
+    
+    tz.setStyleSheet(("QLabel{font-size:"+str(value)+"px}"))
+ms = QSlider(Qt.Vertical)
+ms.valueChanged[int].connect(slide)
+
+
+okno.resize(500, 200)
+but1 = QPushButton()
+horline.addWidget(tz, alignment=Qt.AlignCenter)
+horline.addWidget(ms)
+horline.addWidget(but1)
+
+def abc():
+    col = QColorDialog.getColor()
+    if col.isValid():
+        okno.setStyleSheet("QLabel{color: %s}"%col.name())
+
+but1.clicked.connect(abc)
+
+
+
+okno.show()
+app.exec_()
